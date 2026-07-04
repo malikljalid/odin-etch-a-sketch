@@ -1,5 +1,5 @@
-let container = document.createElement("div");
-container.classList.add(".container");
+let container = document.querySelector(".container");
+
 
 let grid = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
@@ -21,5 +21,9 @@ let grid = [
 ];
 
 for (let i = 0; i < 16; i++) {
-
+    for (let j = 0; j < 16; j++) {
+        grid[i][j] = document.createElement("div");
+        grid[i][j].classList.add("square");
+        container.appendChild(grid[i][j]);
+    }
 }
