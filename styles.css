@@ -15,9 +15,13 @@ body {
 }
 
 .square {
-    background-color: black;
+    background-color: pink;
     border: 0.2px solid goldenrod;
     box-sizing: border-box;
     width: 30px;
     height: 30px;
+}
+
+.checked {
+    background-color: black;
 }
