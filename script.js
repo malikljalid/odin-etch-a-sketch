@@ -27,3 +27,7 @@ for (let i = 0; i < 16; i++) {
         container.appendChild(grid[i][j]);
     }
 }
+
+const squares = document.querySelectorAll(".square");
+
+squares.forEach( (square) => square.addEventListener("mousemove", () => { square.classList.add("checked"); }));
