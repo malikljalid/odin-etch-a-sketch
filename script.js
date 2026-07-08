@@ -1,48 +1,50 @@
 const   GRID_PIXEL_WIDTH = 480;
 const   GRID_DIVS_MAX    = 100;
 
-const   container   = document.querySelector(".container");
-const   button      = document.querySelector("button");
+let container = document.querySelector(".container");
+let button    = document.querySelector("button");
 
-let     gridDivs = 16;
-let     grid = Array.from({ length: GRID_DIVS_MAX }, () => Array(GRID_DIVS_MAX));
+function getDiv(gridDivs) {
+    let square = document.createElement("div");
 
-function gridInit(gridDivs) {
-    for (let i = 0; i < gridDivs; i++) {
-        for (let j = 0; j < gridDivs; j++) {
-            grid[i][j] = document.createElement("div");
-            grid[i][j].classList.add("square");
-            container.appendChild(grid[i][j]);
-        }
+    square.classList.add("square");
+
+    square.style.width  = `${GRID_PIXEL_WIDTH / gridDivs}px`;
+    square.style.height = `${GRID_PIXEL_WIDTH / gridDivs}px`;
+
+    square.addEventListener("mouseenter", () => { square.classList.add("checked"); });
+
+    return (square);
+}
+
+function gridInit(gridDivs = 16) {
+    for (let i = 0; i < gridDivs * gridDivs; i++) {
+        container.appendChild(getDiv(gridDivs));
     }
 }
 
-function gridClear(gridDivs) {
-    for (let i = 0; i < gridDivs; i++) {
-        for (let j = 0; j < gridDivs; j++) {
-            container.removeChild(grid[i][j]);
-        }
-    }
+function gridClear() {
+    container.innerHTML = "";
 }
 
-function setNewSquaresSize(square) {
-    square.style.width  = String(GRID_PIXEL_WIDTH / gridDivs) + "px";
-    square.style.height = String(GRID_PIXEL_WIDTH / gridDivs) + "px";
-}
-
-function gridDraw() {
-    const squares = document.querySelectorAll(".square");
-
-    squares.forEach( (square) => { setNewSquaresSize(square); } );
-    squares.forEach( (square) => square.addEventListener("mouseenter", () => { square.classList.add("checked"); }));
-}
-
-gridInit(gridDivs);
-gridDraw();
-
-button.addEventListener("click", () => {
-    gridClear(gridDivs);
-    gridDivs = parseInt(prompt("Enter the new grid size : "));
+function gridCreate(gridDivs) {
+    gridClear();
     gridInit(gridDivs);
-    gridDraw();
-});
+}
+
+function changeGridSize() {
+    const input = parseInt(prompt("Enter a grid size (1-100): "));
+
+    if (isNaN(input)) return ;
+
+    if (input < 1 || input > GRID_DIVS_MAX) {
+        alert(`Please enter a number between 1 and ${GRID_DIVS_MAX}.`);
+        return ;
+    }
+
+    gridCreate(input);
+}
+
+button.addEventListener("click", changeGridSize);
+
+gridCreate();
